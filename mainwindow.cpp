@@ -34,14 +34,14 @@ double MainWindow::Radians(double a)
 
 void MainWindow::drawFillLine()
 {
-    double angle = 0;
+    double angle = 315;
     double majorX = cos(Radians(angle));
     double majorY = sin(Radians(angle));
 
     double steps = 4;
     int i = 0;
     int passes = 4;
-
+    double level = 255.0/(passes+1);
 
     double dx = sourceImg.width();
     double dy = sourceImg.height();
@@ -50,7 +50,6 @@ void MainWindow::drawFillLine()
     int i_radius = (int)radius;
     liner->moveTo(0,0);
 
-    //横
     for(int a =-i_radius;a<i_radius;a+=steps)
     {
         double majorPX = majorX*a;
@@ -62,7 +61,7 @@ void MainWindow::drawFillLine()
         double endPY = majorPY - majorX*radius;
 
          qDebug()<<tr("along line,sx=%1,sy=%2,ex=%3,ey=%4").arg(startPX).arg(startPY).arg(endPX).arg(endPY);
-        double l2 = 204;
+        double l2 = 128;
         if((i%2)==0)
         {
             convertAlongLine(startPX,startPY,endPX,endPY,steps,r2,l2);
@@ -74,93 +73,6 @@ void MainWindow::drawFillLine()
         i++;
     }
 
-    //竖
-    liner->moveTo(0,0);
-    angle = 90;
-    majorX = cos(Radians(angle));
-    majorY = sin(Radians(angle));
-    i = 0;
-    for(int a =-i_radius;a<i_radius;a+=steps)
-    {
-        double majorPX = majorX*a;
-        double majorPY = majorY*a;
-        double startPX = majorPX - majorY*radius;
-        double startPY = majorPY + majorX*radius;
-
-        double endPX = majorPX + majorY*radius;
-        double endPY = majorPY - majorX*radius;
-
-         qDebug()<<tr("along line,sx=%1,sy=%2,ex=%3,ey=%4").arg(startPX).arg(startPY).arg(endPX).arg(endPY);
-        double l2 = 153;
-        if((i%2)==0)
-        {
-            convertAlongLine(startPX,startPY,endPX,endPY,steps,r2,l2);
-        }
-        else
-        {
-            convertAlongLine(endPX,endPY,startPX,startPY,steps,r2,l2);
-        }
-        i++;
-    }
-
-
-    //左下
-    liner->moveTo(0,0);
-    angle = 45;
-    majorX = cos(Radians(angle));
-    majorY = sin(Radians(angle));
-    i = 0;
-    for(int a =-i_radius;a<i_radius;a+=steps)
-    {
-        double majorPX = majorX*a;
-        double majorPY = majorY*a;
-        double startPX = majorPX - majorY*radius;
-        double startPY = majorPY + majorX*radius;
-
-        double endPX = majorPX + majorY*radius;
-        double endPY = majorPY - majorX*radius;
-
-         qDebug()<<tr("along line,sx=%1,sy=%2,ex=%3,ey=%4").arg(startPX).arg(startPY).arg(endPX).arg(endPY);
-        double l2 = 102;
-        if((i%2)==0)
-        {
-            convertAlongLine(startPX,startPY,endPX,endPY,steps,r2,l2);
-        }
-        else
-        {
-            convertAlongLine(endPX,endPY,startPX,startPY,steps,r2,l2);
-        }
-        i++;
-    }
-
-    //右下
-    liner->moveTo(0,0);
-    angle = 135;
-    majorX = cos(Radians(angle));
-    majorY = sin(Radians(angle));
-    i = 0;
-    for(int a =-i_radius;a<i_radius;a+=steps)
-    {
-        double majorPX = majorX*a;
-        double majorPY = majorY*a;
-        double startPX = majorPX - majorY*radius;
-        double startPY = majorPY + majorX*radius;
-
-        double endPX = majorPX + majorY*radius;
-        double endPY = majorPY - majorX*radius;
-
-         qDebug()<<tr("along line,sx=%1,sy=%2,ex=%3,ey=%4").arg(startPX).arg(startPY).arg(endPX).arg(endPY);
-        double l2 = 51;
-        if((i%2)==0)
-        {
-            convertAlongLine(startPX,startPY,endPX,endPY,steps,r2,l2);
-        }
-        else
-        {
-            convertAlongLine(endPX,endPY,startPX,startPY,steps,r2,l2);
-        }
-        i++;
-    }
 }
 
 void MainWindow::convertAlongLine(double x0,double y0,double x1,double y1,double stepSize,double r2,double level)
