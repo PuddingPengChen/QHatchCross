@@ -13,7 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    liner = new QPainterPath();
+//    liner = new QPainterPath();
+
+    hatch = new HatchSprial();
 }
 
 MainWindow::~MainWindow()
@@ -25,6 +27,7 @@ void MainWindow::on_pushButton_clicked()
 {
     QString file = QFileDialog::getOpenFileName(this,tr("文件"),tr("./"),tr("Image(*.jpg *.png)"));
     sourceImg = QImage(file);
+    hatch->setImg(sourceImg);
 }
 double MainWindow::Radians(double a)
 {
@@ -34,45 +37,47 @@ double MainWindow::Radians(double a)
 
 void MainWindow::drawFillLine()
 {
-    double angle = 315;
-    double majorX = cos(Radians(angle));
-    double majorY = sin(Radians(angle));
+    //用直线来进行填充的案例
+//    double angle = 315;
+//    double majorX = cos(Radians(angle));
+//    double majorY = sin(Radians(angle));
 
-    double steps = 4;
-    int i = 0;
-    int passes = 4;
-    double level = 255.0/(passes+1);
+//    double steps = 4;
+//    int i = 0;
+//    int passes = 4;
+//    double level = 255.0/(passes+1);
 
-    double dx = sourceImg.width();
-    double dy = sourceImg.height();
-    double radius = sqrt(dx*dx+dy*dy);
-    double r2 = radius*2;
-    int i_radius = (int)radius;
-    liner->moveTo(0,0);
+//    double dx = sourceImg.width();
+//    double dy = sourceImg.height();
+//    double radius = sqrt(dx*dx+dy*dy);
+//    double r2 = radius*2;
+//    int i_radius = (int)radius;
+//    liner->moveTo(0,0);
 
-    for(int a =-i_radius;a<i_radius;a+=steps)
-    {
-        double majorPX = majorX*a;
-        double majorPY = majorY*a;
-        double startPX = majorPX - majorY*radius;
-        double startPY = majorPY + majorX*radius;
+//    for(int a =-i_radius;a<i_radius;a+=steps)
+//    {
+//        double majorPX = majorX*a;
+//        double majorPY = majorY*a;
+//        double startPX = majorPX - majorY*radius;
+//        double startPY = majorPY + majorX*radius;
 
-        double endPX = majorPX + majorY*radius;
-        double endPY = majorPY - majorX*radius;
+//        double endPX = majorPX + majorY*radius;
+//        double endPY = majorPY - majorX*radius;
 
-         qDebug()<<tr("along line,sx=%1,sy=%2,ex=%3,ey=%4").arg(startPX).arg(startPY).arg(endPX).arg(endPY);
-        double l2 = 128;
-        if((i%2)==0)
-        {
-            convertAlongLine(startPX,startPY,endPX,endPY,steps,r2,l2);
-        }
-        else
-        {
-            convertAlongLine(endPX,endPY,startPX,startPY,steps,r2,l2);
-        }
-        i++;
-    }
-
+//         qDebug()<<tr("along line,sx=%1,sy=%2,ex=%3,ey=%4").arg(startPX).arg(startPY).arg(endPX).arg(endPY);
+//        double l2 = 128;
+//        if((i%2)==0)
+//        {
+//            convertAlongLine(startPX,startPY,endPX,endPY,steps,r2,l2);
+//        }
+//        else
+//        {
+//            convertAlongLine(endPX,endPY,startPX,startPY,steps,r2,l2);
+//        }
+//        i++;
+//    }
+    hatch->drillHatchCross();
+    liner = hatch->getPath();
 }
 
 void MainWindow::convertAlongLine(double x0,double y0,double x1,double y1,double stepSize,double r2,double level)
@@ -96,7 +101,6 @@ void MainWindow::convertAlongLine(double x0,double y0,double x1,double y1,double
             v = qGray(grays[((int)x)+((int)y)*(sourceImg.width())]);
         else
             v = 255;
-//         if((v>=level)&&(v<255))
         if(v<=level)
         {
             liner->lineTo(x,y);
@@ -105,7 +109,6 @@ void MainWindow::convertAlongLine(double x0,double y0,double x1,double y1,double
         {
             liner->moveTo(x,y);
         }
-//        qDebug()<<tr("along line,x=%1,y=%2").arg(x).arg(y);
     }
 
 }

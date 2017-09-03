@@ -8,7 +8,11 @@ HatchSprial::HatchSprial(QObject *parent) :
 
 void HatchSprial::drillHatchCross()
 {
-
+    convertPaperSpace();
+}
+void HatchSprial::setImg(QImage d)
+{
+    sourceImg = d;
 }
 
 double HatchSprial::Radians(double a)
@@ -46,7 +50,6 @@ void HatchSprial::convertAlongLine(double x0,double y0,double x1,double y1,doubl
         {
             liner->moveTo(x,y);
         }
-//        qDebug()<<tr("along line,x=%1,y=%2").arg(x).arg(y);
     }
 
 }

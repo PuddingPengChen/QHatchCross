@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDateTime>
 
+#include "./hatchsprial/hatchsprial.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -26,6 +28,8 @@ private:
 
     QPainterPath * liner;
     QImage sourceImg;
+
+    HatchSprial* hatch;
 
     double Radians(double a);
     void drawFillLine();
